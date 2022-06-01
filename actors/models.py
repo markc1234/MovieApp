@@ -11,7 +11,7 @@ class Actor(models.Model):
     biographical_summary = models.TextField(max_length=300)
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.first_name} {self.last_name}s"
 
 
 class Nacionality(models.Model):

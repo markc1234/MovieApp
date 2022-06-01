@@ -21,6 +21,9 @@ class Review(models.Model):
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
 
+    def save(self, *args, **kwargs):
+        super(Review, self).save(*args, **kwargs)
+
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
@@ -30,3 +33,16 @@ class Movie(models.Model):
     film_director = models.ForeignKey(Director, on_delete=models.CASCADE)
     reviews = models.ManyToManyField(Review, blank=True)
     genres = models.ManyToManyField(Genre, blank=True)
+
+    def getRatingAverage(self):
+        all_ratings = self.Review.all()
+        count = 0
+
+        for rating in all_ratings:
+            total += rating.rating
+            count += 1
+
+        return total // count
+
+    def __str__(self):
+        return self.title
