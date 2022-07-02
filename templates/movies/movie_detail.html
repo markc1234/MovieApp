@@ -1,0 +1,21 @@
+{% extends '_base.html' %}
+
+
+{% block title %}Movie Detail{% endblock title %}
+
+{% block content %}
+    <div class="movie_detail">
+        {% if movie.picture %}
+            <img class="actorpicture" src="{{ movie.picture.url }}" alt="{{ movie.title }}">
+        {% endif %}
+        <h2>{{ movie.title }}</h2>
+        <p>Descripcion: {{ movie.summary }}</p>
+        <p>Año de produccion: {{ movie.year_of_production }}</p>
+        <p>{{movie.get_actors}}</p>
+        {% comment %} <ul>
+            {% for actor in movie.actors %}
+                <li>{{actor.first_name}} {{ actor.last_name }}</li>
+            {% endfor %}
+        </ul> {% endcomment %}
+    </div>
+{% endblock content %}

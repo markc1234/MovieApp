@@ -38,11 +38,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    "crispy_forms",
+    "crispy_bootstrap5",
+    'allauth',
+    'allauth.account',
+
+    'sap.apps.SapConfig',
     'users.apps.UsersConfig',
-    'directors.apps.DirectorsConfig',
-    'movies.apps.MoviesConfig',
-    'actors.apps.ActorsConfig',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,7 +131,39 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] # locacion de archivos estaticos en el desarrollo local
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # produccion (py manage.py collectstatic)
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+MEDIA_URL = "/media/" 
+MEDIA_ROOT = BASE_DIR / "media" 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
+LOGIN_REDIRECT_URL = 'home' # redirecciona al template 'home'
+ACCOUNT_LOGOUT_REDIRECT = "home" # tambien redirecciona a 'home'
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+ACCOUNT_SESSION_REMEMBER = True  # no muestra la opcion de "remember me"
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False  # no ingresar dos veces la contraseña al registrarse
+
+# email para inicio de sesion y registro
+ACCOUNT_USERNAME_REQUIRED = False 
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_EMAIL_REQUIRED = True 
+ACCOUNT_UNIQUE_EMAIL = True 

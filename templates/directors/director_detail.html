@@ -1,0 +1,14 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ actor.title }}{% endblock title %}
+
+{% block content %}
+    <div class="director-detail">
+        {% if director.picture %}
+            <img class="director-picture" src="{{ director.picture.url }}" alt="{{ director.title }}">
+        {% endif %}
+        <h2><a href="">{{ director.first_name }} {{ director.last_name }}</a></h2>
+        <p>Fecha de nacimiento: {{ director.born_date }}</p>
+        <p>Biografia: {{ director.biographical_summary }}</p>
+    </div>
+{% endblock content %}

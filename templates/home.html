@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+
+{% block title %}Best ranked movies{% endblock title %}
+
+{% block content %}
+    {% comment %} <h1>Best Ranked Movies</h1>
+    {% if user.is_authenticated %}
+        Hi {{user.email}}
+        <p><a href="{% url 'account_logout' %}">Log Out</a></p>
+    {% else %}
+        <p>Desconectado</p>
+        <a href="{% url 'account_login' %}">Iniciar sesion</a>
+        <a href="{% url 'account_signup' %}">Registrarse</a>
+    {% endif %} {% endcomment %}
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      {% for movie in best12movies %}
+        <div class="col">
+          <div class="card h-100">
+            <a href="{{ movie.get_absolute_url }}">
+              <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{ movie.title }}(5)</h5>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endblock content %}

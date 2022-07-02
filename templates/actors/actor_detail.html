@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% block title %}{{ actor.title }}{% endblock title %}
+
+{% block content %}
+    <div class="actor-detail">
+        {% if actor.picture %}
+            <img class="actorpicture" src="{{ actor.picture.url }}" alt="{{ actor.title }}">
+        {% endif %}
+        <h2><a href="">{{ actor.first_name }} {{ actor.last_name }}</a></h2>
+        <p>Fecha de nacimiento: {{ actor.born_date }}</p>
+        <p>Biografia: {{ actor.biographical_summary }}</p>
+        {% comment %} <div>
+            <h3>Reviews</h3>
+            <ul>
+                {% for review in book.reviews.all %}
+                    <li>{{ review.review }} ({{ review.author }})</li>
+                {% endfor %}
+            </ul>
+        </div> {% endcomment %}
+    </div>
+{% endblock content %}
