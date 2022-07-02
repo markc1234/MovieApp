@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import Actor, Nacionality, Director, Movie, Review
 
-# ADMIN CREDENTIALS
-
 # Register your models here.
 class ActorAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'nacionality', 'born_date',)
