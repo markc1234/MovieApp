@@ -71,6 +71,14 @@ class Movie(models.Model):
     film_director = models.ForeignKey(Director, on_delete=models.RESTRICT, blank=True)
     objects =  MovieManager()
 
+    
+    class Meta:
+        permissions = [
+            ('create_movie', 'Can create movie'),
+            ('update_movie', 'Can update movie'),
+            ('remove_movie', 'Can delete movie'),
+        ]
+    
     def getRatingAverage(self):
         all_ratings = Review.all()
         count = 0

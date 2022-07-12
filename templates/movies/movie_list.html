@@ -3,6 +3,9 @@
 {% block title %}All Movies{% endblock title %}
 
 {% block content %}
+    <form class="form-inline mt-2 mt-md-0" action="{% url 'search_movie_results' %}"method="get">
+        <input name="q" class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Search">
+    </form>
     {% for movie in movie_list %}
         <div>
             <h2>

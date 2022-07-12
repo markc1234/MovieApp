@@ -1,0 +1,16 @@
+{% extends '_base.html' %}
+
+{% block title %}Search Movie{% endblock title %}
+
+{% block content %}
+    <h1>Buscar pelicula</h1>
+
+    {% for movie in movie_list %}
+        <div>
+            <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+            <p>Titulo: {{ movie.title }}</p>
+            <p>Descripcion: {{ movie.summary }}</p>
+            <p>Año de produccion: {{ movie.year_of_production }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
