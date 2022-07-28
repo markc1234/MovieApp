@@ -1,9 +1,12 @@
+from http.client import HTTPResponse
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView, View
 from django.views.generic.edit import CreateView
+from django.views.generic.detail import SingleObjectMixin
+from django.urls import reverse_lazy
 
-from .models import Movie, Actor, Director
+from .models import Movie, Actor, Director, Review
 
 # Create your views here.
 class HomePageView(ListView):
@@ -12,6 +15,7 @@ class HomePageView(ListView):
     template_name = 'home.html'
 
 
+# MOVIES
 class MovieListView(ListView):
     model = Movie
     context_object_name = 'movie_list'
@@ -20,18 +24,66 @@ class MovieListView(ListView):
 
 class MovieDetailView(DetailView):
     model = Movie
-    context_object_name = 'movie'
     template_name = 'movies/movie_detail.html'
+    movie = Movie()
+
+    def get_context_data(self, **kwargs):
+        pk_movie = self.kwargs['pk']
+        context = super().get_context_data(**kwargs)
+        context['movie'] = Movie.objects.get(pk=pk_movie)
+        self.movie = Movie.objects.get(pk=pk_movie)
+        context['director'] = Director.objects.filter(movie=self.movie)
+        context['actors'] = Actor.objects.filter(movie=self.movie)
+        context['reviews'] = Review.objects.filter(movie=self.movie)
+        return context
 
 
 class MovieCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Movie
     template_name = 'movies/movie_new.html'
     fields = ('title', 'summary', 'actors', 'year_of_production', 'picture', 'film_director')
+    success_url = reverse_lazy('movie_list')
     login_url = 'account_login'
     permission_required = 'movies.create_movie'
 
 
+# REVIEWS
+class ReviewAdminCheckingView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = Review
+    context_object_name = 'review_list'
+    template_name = 'reviews/admin_check.html'
+    login_url = 'account_login'
+    permission_required = 'movies.see_new_reviews'
+
+
+class ReviewCreateView(CreateView):
+    model = Review
+    template_name = 'reviews/review_new.html'
+    fields = ('email', 'username', 'source', 'rating', 'movie')
+    
+    def get_success_url(self) -> str:
+        movie_id = self.object.movie.id
+        return reverse_lazy('movie_detail',  args=[str(movie_id)])
+
+class ReviewApprovedUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Review
+    template_name = 'reviews/review_update_approve.html'
+    fields = ('approved', )
+    success_url = reverse_lazy('admin_check')
+    login_url = 'account_login'
+    permission_required = 'movies.approve_review'
+
+
+class ReviewDisapprovedUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Review
+    template_name = 'reviews/review_update_disapprove.html'
+    fields = ('disapproved', )
+    success_url = reverse_lazy('admin_check')
+    login_url = 'account_login'
+    permission_required = 'movies.disapprove_review'
+
+
+# ACTORS
 class ActorListView(ListView):
     model = Actor
     context_object_name = 'actor_list'
@@ -40,10 +92,19 @@ class ActorListView(ListView):
 
 class ActorDetailView(DetailView):
     model = Actor
-    context_object_name = 'actor'
     template_name = 'actors/actor_detail.html'
+    actor = Actor()
+
+    def get_context_data(self, **kwargs):
+        pk_actor = self.kwargs['pk']
+        context = super().get_context_data(**kwargs)
+        context['actor'] = Actor.objects.get(pk = pk_actor)
+        self.actor = Actor.objects.get(pk=pk_actor)
+        context['movies'] = Movie.objects.filter(actors = self.actor)
+        return context
 
 
+# DIRECTORS
 class DirectorListView(ListView):
     model = Director
     context_object_name = 'director_list'
@@ -52,8 +113,25 @@ class DirectorListView(ListView):
 
 class DirectorDetailView(DetailView):
     model = Director
-    context_object_name = 'director'
     template_name = 'directors/director_detail.html'
+    director = Director()
+    
+    def get_context_data(self, **kwargs):
+        pk_director = self.kwargs['pk']
+        context = super().get_context_data(**kwargs)
+        context['director'] = Director.objects.get(pk = pk_director)
+        self.director = Director.objects.get(pk=pk_director)
+        context['movies'] = Movie.objects.filter(film_director = self.director)
+        return context
+    
+    # def get_queryset(self):
+    #     qs = Movie.objects.all()
+    #     pk_director = self.request.GET.get('query')
+    #     if pk_director:
+    #         qs = qs.filter(film_director__id=pk_director)
+    #     return qs
+
+
 
 # SEARCH
 

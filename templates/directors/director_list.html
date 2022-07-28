@@ -3,9 +3,30 @@
 {% block title %}All Directors{% endblock title %}
 
 {% block content %}
-    {% for director in director_list %}
+    {% comment %} {% for director in director_list %}
         <div>
             <h2><a href="{{ director.get_absolute_url }}">{{ director.first_name }} {{ director.last_name }}</a></h2>
         </div>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
+    <section>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="card text-white bg-dark my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">Peliculas</p></div>
+            </div>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+              {% for director in director_list %}
+              <div class="col mb-5">
+                  <div class="card h-60">
+                    <a href="{{ director.get_absolute_url }}">
+                      <img src="{{ director.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                    </a>
+                      <div class="card-footer text-muted">
+                          <h5 class="card-title">{{ director.first_name }} {{ director.last_name }}</h5>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+      </section>
 {% endblock content %}

@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>Desaprobar critica</h1>
+    <p><b>Seguro queres desaprobar esta critica?</b></p>
+    <p>* Seleccione la siguiente casilla para desaprobar la critica.</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.disapproved|as_crispy_field }}
+        <button class="btn btn-danger" type="submit">Desaprobar</button>
+    </form>
+</div>
+{% endblock content %}

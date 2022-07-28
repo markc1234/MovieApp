@@ -4,13 +4,13 @@
 {% block title %}Log out{% endblock title %}
 
 {% block content %}
-
-    <h1>Cerrar sesion</h1>
-    <p>Seguro queres cerrar sesion?</p>
-    <form method="post" action="{% url 'account_logout' %}">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-danger" type="submit">Cerrar</button>
-    </form>
-
+    <div class="container py-5">
+        <h1>Cerrar sesion</h1>
+        <p>Seguro queres cerrar sesion?</p>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-danger" type="submit">Cerrar</button>
+        </form>
+    </div>
 {% endblock content %}

@@ -4,18 +4,106 @@
 {% block title %}Movie Detail{% endblock title %}
 
 {% block content %}
-    <div class="movie_detail">
+    {% comment %} <div class="movie_detail">
         {% if movie.picture %}
             <img class="actorpicture" src="{{ movie.picture.url }}" alt="{{ movie.title }}">
         {% endif %}
         <h2>{{ movie.title }}</h2>
         <p>Descripcion: {{ movie.summary }}</p>
         <p>Año de produccion: {{ movie.year_of_production }}</p>
-        <p>{{movie.get_actors}}</p>
-        {% comment %} <ul>
-            {% for actor in movie.actors %}
-                <li>{{actor.first_name}} {{ actor.last_name }}</li>
+        {% for film_director in director %}
+        <p>Director: {{ film_director.first_name }} {{ film_director.last_name }}</p>
+            <div class="col-2">
+                <div class="pelicula-img position-relative mb-5 text-center">
+                    <img class="img-fluid rounded-3 mb-1" src="{{ film_director.picture.url }}" alt="..." />
+                    <a id="titulo" class="fw-bolder text-decoration-none link-dark stretched-link" 
+                    href="{{ film_director.get_absolute_url }}">{{ film_director.first_name }} {{ film_director.last_name }}</a>
+                </div>
+            </div>
+        {% endfor %}
+        <p>Actores:</p>
+        {% for actor in actors %}
+        <div class="col-2">
+            <div class="pelicula-img position-relative mb-5 text-center">
+                <img class="img-fluid rounded-3 mb-1" src="{{ actor.picture.url }}" alt="..." />
+                <a id="titulo" class="fw-bolder text-decoration-none link-dark stretched-link" 
+                href="{{ actor.get_absolute_url }}">{{ actor.first_name }} {{ actor.last_name }}</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div> {% endcomment %}
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+            <div class="col-lg-4">
+                {% if movie.picture %}
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{movie.picture.url}}" alt="movie picture" />
+                {% endif %}
+            </div>
+            <div class="col-lg-8">
+                <h1 class="font-weight-light">{{ movie.title }}</h1>
+                <p><b>Descripcion:</b> {{ movie.summary }}</p>
+                <p><b>Año de produccion:</b> {{ movie.year_of_production }}</p>
+            </div>
+        </div>
+        <div class="card text-white bg-dark my-5 py-4 text-center">
+            <div class="card-body"><p class="text-white m-0">Director</p></div>
+        </div>
+        <div class="row gx-4 gx-lg-5">
+            {% for film_director in director %}
+            <div class="col-md-4 mb-5">
+                <div class="card h-60">
+                    <a href="{{ film_director.get_absolute_url }}">
+                      <img src="{{ film_director.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                    </a>
+                      <div class="card-footer text-muted">
+                          <h5 class="card-title">{{ film_director.first_name }} {{ film_director.last_name }}</h5>
+                      </div>
+                </div>
+            </div>
             {% endfor %}
-        </ul> {% endcomment %}
+        </div>
+        <div class="card text-white bg-dark my-5 py-4 text-center">
+            <div class="card-body"><p class="text-white m-0">Actores</p></div>
+        </div>
+        <div class="row gx-4 gx-lg-5">
+            {% for actor in actors %}
+            <div class="col-md-4 mb-5">
+                <div class="card h-60">
+                    <a href="{{ actor.get_absolute_url }}">
+                      <img src="{{ actor.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                    </a>
+                      <div class="card-footer text-muted">
+                          <h5 class="card-title">{{ actor.first_name }} {{ actor.last_name }}</h5>
+                      </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card text-white bg-dark my-4 py-3 text-center">
+            <div class="card-body">
+                <p class="text-white m-0">Reseñas</p>
+                <a class="btn btn-light mt-3" role="button" aria-disable="true" href="{% url 'review_new'  %}?next={{ movie.get_absolute_url }}">Publicar reseña</a>
+            </div>
+        </div>
+        {% if reviews %}
+            {% for review in reviews %}
+                {% if review.approved %}
+                <div class="card">
+                    <div class="card-header">
+                        <span class="font-weight-bold">{{ review.movie }}</span> &middot;
+                        <span class="text-muted">by {{ review.username }} |
+                            {{ review.timestamp }}</span>  &middot;
+                            <span class="text-end">Puntuacion {{review.rating}} / 5</span>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ review.source }}</p>
+                    </div>
+                </div>
+                <br />
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h3>No hay reseñas</h3>
+        {% endif %}
     </div>
 {% endblock content %}

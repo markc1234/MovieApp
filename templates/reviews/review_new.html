@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="card text-white bg-dark my-5 py-4 text-center">
+            <div class="card-body">
+                <form class="m-3 text-center" action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.email|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.rating|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.username|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.movie|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form.source|as_crispy_field }}
+                        </div>
+                    </div>
+                    <button class="btn btn-success ml-2" type="submit">Publicar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

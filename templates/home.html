@@ -3,16 +3,33 @@
 {% block title %}Best ranked movies{% endblock title %}
 
 {% block content %}
-    {% comment %} <h1>Best Ranked Movies</h1>
-    {% if user.is_authenticated %}
-        Hi {{user.email}}
-        <p><a href="{% url 'account_logout' %}">Log Out</a></p>
-    {% else %}
-        <p>Desconectado</p>
-        <a href="{% url 'account_login' %}">Iniciar sesion</a>
-        <a href="{% url 'account_signup' %}">Registrarse</a>
-    {% endif %} {% endcomment %}
-    <div class="row row-cols-1 row-cols-md-4 g-4">
+  <header class="py-5 bg-dark">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder text-white">Movie Review App</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Rank your favorite movies</p>
+        </div>
+    </div>
+  </header>
+  <section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {% for movie in best12movies %}
+          <div class="col mb-5">
+              <div class="card h-60">
+                <a href="{{ movie.get_absolute_url }}">
+                  <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                </a>
+                  <div class="card-footer text-muted">
+                      <h5 class="card-title">{{ movie.title }} ({{ movie.score }})</h5>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+  </section>
+    {% comment %} <div class="row row-cols-1 row-cols-md-4 g-4">
       {% for movie in best12movies %}
         <div class="col">
           <div class="card h-100">
@@ -20,10 +37,10 @@
               <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
             </a>
             <div class="card-body">
-              <h5 class="card-title">{{ movie.title }}(5)</h5>
+              <h5 class="card-title">{{ movie.title }} ({{ movie.score }})</h5>
             </div>
           </div>
         </div>
       {% endfor %}
-    </div>
+    </div> {% endcomment %}
 {% endblock content %}

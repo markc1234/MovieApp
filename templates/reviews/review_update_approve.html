@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container py-5">
+    <h1>Aprobar critica</h1>
+    <p><b>Seguro queres aprobar esta critica?</b></p>
+    <p>* Seleccione la siguiente casilla para aprobar la critica.</p>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.approved|as_crispy_field }}
+        <button class="btn btn-success" type="submit">Aprobar</button>
+    </form>
+</div>
+{% endblock content %}

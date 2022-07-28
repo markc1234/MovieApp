@@ -53,8 +53,8 @@ class Nacionality(models.Model):
 
 
 class MovieManager(models.Manager):
-    def getBest12():
-        pass
+    def getBest12_ranking(self):
+        return self.order_by('-score')[:12]
 
 
 class Movie(models.Model):
@@ -68,6 +68,10 @@ class Movie(models.Model):
     actors = models.ManyToManyField(Actor, blank=True)
     year_of_production = models.DateField()
     picture = models.ImageField(blank=True, upload_to='movies/')
+    score = models.IntegerField(
+        default=1,
+        validators=[MaxValueValidator(5), MinValueValidator(1)]
+    )
     film_director = models.ForeignKey(Director, on_delete=models.RESTRICT, blank=True)
     objects =  MovieManager()
 
@@ -77,17 +81,22 @@ class Movie(models.Model):
             ('create_movie', 'Can create movie'),
             ('update_movie', 'Can update movie'),
             ('remove_movie', 'Can delete movie'),
+            ('see_new_reviews', 'Can see new reviews'),
+            ('approve_review', 'Can approve review'),
+            ('disapprove_review', 'Can disapprove review'),
         ]
     
-    def getRatingAverage(self):
-        all_ratings = Review.all()
+    def getRatingAverage(self, **kwargs):
+        total = 0
         count = 0
+        thisMovieRatings = self.review_set.all()
 
-        for rating in all_ratings:
+        for rating in thisMovieRatings:
             total += rating.rating
             count += 1
 
-        return total // count
+        self.score = total // count
+        self.save()
 
     def __str__(self):
         return self.title
@@ -110,10 +119,13 @@ class Review(models.Model):
         validators=[MaxValueValidator(5), MinValueValidator(1)]
     )
     approved = models.BooleanField(default=False)
+    disapproved = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, null=True)
 
     def save(self, *args, **kwargs):
         super(Review, self).save(*args, **kwargs)
+        self.movie.getRatingAverage()
 
     def __str__(self):
         return self.source

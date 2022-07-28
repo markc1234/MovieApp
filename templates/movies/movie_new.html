@@ -4,9 +4,11 @@
 {% block title %}New Movie{% endblock title %}
 
 {% block content %}
-    <h1>Nueva pelicula</h1>
-    <form action="" method="post">{% csrf_token %}
-        {{ form|crispy }}
-        <button class="btn btn-success ml-2" type="submit">Agregar</button>
-    </form>
+    <div class="container">
+        <h1>Nueva pelicula</h1>
+        <form class="m-3" action="" method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <button class="btn btn-success ml-2" type="submit">Agregar</button>
+        </form>
+    </div>
 {% endblock content %}

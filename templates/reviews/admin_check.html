@@ -1,0 +1,43 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    {% comment %} {% if review_list %}
+        <ul>
+            {% for review in review_list %}
+                <li>
+                    <p>{{ review.username }}</p>
+                    <p>{{ review.timestamp }}</p>
+                    <p>{{ review.source }}</p>
+                    <p>{{ review.rating }}</p>
+                </li>
+            {% endfor %}
+        </ul>    
+    {% else %}
+        <h3>No hay reseñas</h3>
+    {% endif %} {% endcomment %}
+    <div class="container px-4 px-lg-5 mt-5">
+        {% if review_list %}
+            {% for review in review_list %}
+                {% if not review.approved and not review.disapproved %}
+                <div class="card">
+                    <div class="card-header">
+                        <span class="font-weight-bold">{{ review.movie }}</span> &middot;
+                        <span class="text-muted">by {{ review.username }} |
+                            {{ review.timestamp }}</span>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ review.source }}</p>
+                        <form method="post" action="">
+                            <a class="btn btn-success" href="{% url 'review_update_approve' review.pk %}" role="button">Aprobar</a>   |  
+                            <a class="btn btn-danger" href="{% url 'review_update_disapprove' review.pk %}" role="button">Desaprobar</a>
+                        </form>
+                    </div>
+                </div>
+                <br />
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <h3>No hay reseñas</h3>
+        {% endif %}
+    </div>
+{% endblock content %}

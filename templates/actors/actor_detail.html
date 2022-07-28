@@ -3,20 +3,36 @@
 {% block title %}{{ actor.title }}{% endblock title %}
 
 {% block content %}
-    <div class="actor-detail">
-        {% if actor.picture %}
-            <img class="actorpicture" src="{{ actor.picture.url }}" alt="{{ actor.title }}">
-        {% endif %}
-        <h2><a href="">{{ actor.first_name }} {{ actor.last_name }}</a></h2>
-        <p>Fecha de nacimiento: {{ actor.born_date }}</p>
-        <p>Biografia: {{ actor.biographical_summary }}</p>
-        {% comment %} <div>
-            <h3>Reviews</h3>
-            <ul>
-                {% for review in book.reviews.all %}
-                    <li>{{ review.review }} ({{ review.author }})</li>
-                {% endfor %}
-            </ul>
-        </div> {% endcomment %}
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+            <div class="col-lg-4">
+                {% if actor.picture %}
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{actor.picture.url}}" alt="actor picture" />
+                {% endif %}
+            </div>
+            <div class="col-lg-8">
+                <h1 class="font-weight-light">{{ actor.first_name }} {{ actor.last_name }}</h1>
+                <p><b>Biografia:</b> {{ actor.biographical_summary }}</p>
+                <p><b>Fecha de nacimiento:</b> {{ actor.born_date }}</p>
+                <p><b>Nacionalidad:</b> {{ actor.nacionality }}</p>
+            </div>
+        </div>
+        <div class="card text-white bg-dark my-5 py-4 text-center">
+            <div class="card-body"><p class="text-white m-0">Peliculas</p></div>
+        </div>
+        <div class="row gx-4 gx-lg-5">
+            {% for movie in movies %}
+            <div class="col-md-4 mb-5">
+                <div class="card h-60">
+                    <a href="{{ movie.get_absolute_url }}">
+                      <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                    </a>
+                      <div class="card-footer text-muted">
+                          <h5 class="card-title">{{ movie.title }}</h5>
+                      </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %}

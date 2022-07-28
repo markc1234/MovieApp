@@ -3,7 +3,7 @@
 {% block title %}Search Movie{% endblock title %}
 
 {% block content %}
-    <h1>Buscar pelicula</h1>
+    {% comment %} <h1>Buscar pelicula</h1>
 
     {% for movie in movie_list %}
         <div>
@@ -12,5 +12,24 @@
             <p>Descripcion: {{ movie.summary }}</p>
             <p>Año de produccion: {{ movie.year_of_production }}</p>
         </div>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
+
+    <section>
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+              {% for movie in movie_list %}
+              <div class="col mb-5">
+                  <div class="card h-60">
+                    <a href="{{ movie.get_absolute_url }}">
+                      <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                    </a>
+                      <div class="card-footer text-muted">
+                          <h5 class="card-title">{{ movie.title }} ({{ movie.score }})</h5>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+      </section>
 {% endblock content %}
