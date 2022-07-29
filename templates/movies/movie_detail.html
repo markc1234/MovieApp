@@ -4,34 +4,6 @@
 {% block title %}Movie Detail{% endblock title %}
 
 {% block content %}
-    {% comment %} <div class="movie_detail">
-        {% if movie.picture %}
-            <img class="actorpicture" src="{{ movie.picture.url }}" alt="{{ movie.title }}">
-        {% endif %}
-        <h2>{{ movie.title }}</h2>
-        <p>Descripcion: {{ movie.summary }}</p>
-        <p>Año de produccion: {{ movie.year_of_production }}</p>
-        {% for film_director in director %}
-        <p>Director: {{ film_director.first_name }} {{ film_director.last_name }}</p>
-            <div class="col-2">
-                <div class="pelicula-img position-relative mb-5 text-center">
-                    <img class="img-fluid rounded-3 mb-1" src="{{ film_director.picture.url }}" alt="..." />
-                    <a id="titulo" class="fw-bolder text-decoration-none link-dark stretched-link" 
-                    href="{{ film_director.get_absolute_url }}">{{ film_director.first_name }} {{ film_director.last_name }}</a>
-                </div>
-            </div>
-        {% endfor %}
-        <p>Actores:</p>
-        {% for actor in actors %}
-        <div class="col-2">
-            <div class="pelicula-img position-relative mb-5 text-center">
-                <img class="img-fluid rounded-3 mb-1" src="{{ actor.picture.url }}" alt="..." />
-                <a id="titulo" class="fw-bolder text-decoration-none link-dark stretched-link" 
-                href="{{ actor.get_absolute_url }}">{{ actor.first_name }} {{ actor.last_name }}</a>
-            </div>
-        </div>
-        {% endfor %}
-    </div> {% endcomment %}
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 align-items-center my-5">
             <div class="col-lg-4">

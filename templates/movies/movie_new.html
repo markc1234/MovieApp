@@ -5,10 +5,37 @@
 
 {% block content %}
     <div class="container">
-        <h1>Nueva pelicula</h1>
-        <form class="m-3" action="" method="post">{% csrf_token %}
-            {{ form|crispy }}
-            <button class="btn btn-success ml-2" type="submit">Agregar</button>
-        </form>
+        <div class="card text-white bg-dark my-5 py-4 text-center">
+            <h5 class="car-title">Cargar Pelicula</h5>
+            <div class="card-body">
+                <form class="m-3 text-center" action="" method="post">{% csrf_token %}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.title|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.year_of_production|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            {{ form.actors|as_crispy_field }}
+                        </div>
+                        <div class="col-3">
+                            {{ form.film_director|as_crispy_field }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.picture|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{ form.summary|as_crispy_field }}
+                        </div>
+                    </div>
+                    <button class="btn btn-success ml-2" type="submit">Agregar</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock content %}

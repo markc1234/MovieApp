@@ -3,12 +3,6 @@
 {% block title %}All Actors{% endblock title %}
 
 {% block content %}
-    {% comment %} {% for actor in actor_list %}
-        <div>
-            <h2><a href="{{ actor.get_absolute_url }}">{{ actor.first_name }} {{ actor.last_name }}</a></h2>
-        </div>
-    {% endfor %} {% endcomment %}
-
     <section>
         <div class="container px-4 px-lg-5 mt-5">
             <div class="card text-white bg-dark my-5 py-4 text-center">
@@ -32,5 +26,5 @@
               {% endfor %}
             </div>
         </div>
-      </section>
+    </section>
 {% endblock content %}

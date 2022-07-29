@@ -18,6 +18,11 @@ class Actor(models.Model):
     picture = models.ImageField(blank=True, upload_to='actors/')
     biographical_summary = models.TextField(max_length=1000)
 
+    class Meta:
+        permissions = [
+            ('create_actor', 'Can create actor'),
+        ]
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -37,6 +42,11 @@ class Director(models.Model):
     born_date = models.DateField()
     picture = models.ImageField(blank=True, upload_to='directors/')
     biographical_summary = models.TextField(max_length=1000)
+
+    class Meta:
+        permissions = [
+            ('create_director', 'Can create director'),
+        ]
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -79,8 +89,6 @@ class Movie(models.Model):
     class Meta:
         permissions = [
             ('create_movie', 'Can create movie'),
-            ('update_movie', 'Can update movie'),
-            ('remove_movie', 'Can delete movie'),
             ('see_new_reviews', 'Can see new reviews'),
             ('approve_review', 'Can approve review'),
             ('disapprove_review', 'Can disapprove review'),

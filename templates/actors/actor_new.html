@@ -1,0 +1,39 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="card text-white bg-dark my-5 py-4 text-center">
+        <h5 class="car-title">Cargar actor</h5>
+        <div class="card-body">
+            <form class="m-3 text-center" action="" method="post">{% csrf_token %}
+                <div class="row">
+                    <div class="col-6">
+                        {{ form.first_name|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.last_name|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        {{ form.nacionality|as_crispy_field }}
+                    </div>
+                    <div class="col-3">
+                        {{ form.born_date|as_crispy_field }}
+                    </div>
+                    <div class="col-6">
+                        {{ form.picture|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {{ form.biographical_summary|as_crispy_field }}
+                    </div>
+                </div>
+                <button class="btn btn-success ml-2" type="submit">Agregar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

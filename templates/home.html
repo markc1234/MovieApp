@@ -29,18 +29,4 @@
         </div>
     </div>
   </section>
-    {% comment %} <div class="row row-cols-1 row-cols-md-4 g-4">
-      {% for movie in best12movies %}
-        <div class="col">
-          <div class="card h-100">
-            <a href="{{ movie.get_absolute_url }}">
-              <img src="{{ movie.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
-            </a>
-            <div class="card-body">
-              <h5 class="card-title">{{ movie.title }} ({{ movie.score }})</h5>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
-    </div> {% endcomment %}
 {% endblock content %}

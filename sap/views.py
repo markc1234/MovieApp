@@ -104,6 +104,15 @@ class ActorDetailView(DetailView):
         return context
 
 
+class ActorCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Actor
+    template_name = 'actors/actor_new.html'
+    fields = ('first_name', 'last_name', 'nacionality', 'born_date', 'picture', 'biographical_summary')
+    success_url = reverse_lazy('actor_list')
+    login_url = 'account_login'
+    permission_required = 'actors.create_actor'
+
+
 # DIRECTORS
 class DirectorListView(ListView):
     model = Director
@@ -123,6 +132,15 @@ class DirectorDetailView(DetailView):
         self.director = Director.objects.get(pk=pk_director)
         context['movies'] = Movie.objects.filter(film_director = self.director)
         return context
+
+
+class DirectorCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Actor
+    template_name = 'directors/director_new.html'
+    fields = ('first_name', 'last_name', 'nacionality', 'born_date', 'picture', 'biographical_summary')
+    success_url = reverse_lazy('director_list')
+    login_url = 'account_login'
+    permission_required = 'directors.create_director'
 
 
 # SEARCH
