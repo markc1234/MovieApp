@@ -36,3 +36,7 @@ pip install -r requirements.txt
 ```
 py manage.py runserver
 ```
+
+# Credenciales usuario de prueba admin
+username: admin ---
+password: adminpass1234
