@@ -123,14 +123,6 @@ class DirectorDetailView(DetailView):
         self.director = Director.objects.get(pk=pk_director)
         context['movies'] = Movie.objects.filter(film_director = self.director)
         return context
-    
-    # def get_queryset(self):
-    #     qs = Movie.objects.all()
-    #     pk_director = self.request.GET.get('query')
-    #     if pk_director:
-    #         qs = qs.filter(film_director__id=pk_director)
-    #     return qs
-
 
 
 # SEARCH
@@ -143,5 +135,40 @@ class SearchMoviesResultsListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         return Movie.objects.filter(
-            Q(title__icontains=query)
-        )
+            Q(title__icontains=query) |
+            Q(year_of_production__icontains=query) |
+            Q(film_director__last_name__icontains=query) |
+            Q(film_director__first_name__icontains=query) |
+            Q(actors__last_name__icontains=query) |
+            Q(actors__first_name__icontains=query)  
+        ).distinct()
+
+
+class SearchActorsResultsListView(ListView):
+    model = Actor
+    context_object_name = 'actor_list'
+    template_name = 'actors/search_actor_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Actor.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(born_date__icontains=query) |
+            Q(nacionality__name__icontains=query)
+        ).distinct()
+
+
+class SearchDirectorsResultsListView(ListView):
+    model = Director
+    context_object_name = 'director_list'
+    template_name = 'directors/search_director_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Director.objects.filter(
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(born_date__icontains=query) |
+            Q(nacionality__name__icontains=query)
+        ).distinct()

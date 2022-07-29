@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<section>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+          {% for actor in actor_list %}
+          <div class="col mb-5">
+              <div class="card h-60">
+                <a href="{{ actor.get_absolute_url }}">
+                  <img src="{{ actor.picture.url }}" class="card-img-top" alt="imagen-pelicula" >
+                </a>
+                  <div class="card-footer text-muted">
+                      <h5 class="card-title">{{ actor.first_name }} {{ actor.last_name }}</h5>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

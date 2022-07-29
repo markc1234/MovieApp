@@ -14,6 +14,9 @@
             <div class="card text-white bg-dark my-5 py-4 text-center">
                 <div class="card-body"><p class="text-white m-0">Actores</p></div>
             </div>
+            <form class="form-inline mt-2 mt-md-0 mb-5" action="{% url 'search_actor_results' %}"method="get">
+                <input name="q" class="form-control mr-sm-2" type="text" placeholder="Buscar" aria-label="Search">
+            </form>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
               {% for actor in actor_list %}
               <div class="col mb-5">
